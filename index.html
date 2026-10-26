@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' data: blob:; connect-src 'self' data: blob:; worker-src 'self' blob:; manifest-src 'self'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Split Bill — Free Bill &amp; Tip Splitter, Even or Itemized | S3eidat Tools</title>
+<meta name="description" content="Split a restaurant bill with tip and tax: evenly or item by item, with shared dishes and rounding. Copy a ready summary for WhatsApp. Free and private.">
+<meta property="og:title" content="Split Bill — free, private bill splitter">
+<meta property="og:description" content="Split the bill and tip between friends. Runs 100% in your browser.">
+<meta property="og:image" content="screenshot.png">
+<link rel="icon" href="kit/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="kit/kit.css">
+<link rel="stylesheet" href="app.css">
+<script src="kit/kit.js"></script>
+</head>
+<body data-tool="split-bill">
+<main class="s3-main">
+  <section class="s3-hero">
+    <h1>Split Bill</h1>
+    <p>Split the bill with tip and tax: evenly, or item by item with shared dishes. Every cent adds up, and you get a summary ready to paste in WhatsApp.</p>
+  </section>
+
+  <div class="sb-grid">
+    <section class="card stack">
+      <div class="row between">
+        <div class="seg" id="mode" role="group" aria-label="Split mode">
+          <button type="button" data-v="simple" aria-pressed="true">Split evenly</button>
+          <button type="button" data-v="items" aria-pressed="false">By items</button>
+        </div>
+        <button class="btn ghost small" id="reset"><svg class="i"><use href="#i-refresh"/></svg>Reset</button>
+      </div>
+
+      <div id="simple" class="stack">
+        <label class="field">Bill amount
+          <input class="input big-in" id="bill" inputmode="decimal" autocomplete="off" placeholder="0.00">
+        </label>
+        <div class="field">
+          <label for="people">Number of people</label>
+          <div class="row nowrap">
+            <button type="button" class="btn icon" id="minus" aria-label="One person fewer">−</button>
+            <input class="input center" id="people" inputmode="numeric" autocomplete="off">
+            <button type="button" class="btn icon" id="plus" aria-label="One more person">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="items" class="stack" hidden>
+        <div>
+          <div class="row between"><h3 class="sub">People</h3><button type="button" class="btn small" id="add-person"><svg class="i"><use href="#i-plus"/></svg>Person</button></div>
+          <div id="ppl" class="ppl mt"></div>
+        </div>
+        <div>
+          <div class="row between"><h3 class="sub">Items</h3><button type="button" class="btn small" id="add-item"><svg class="i"><use href="#i-plus"/></svg>Item</button></div>
+          <p class="faint">Tap names to choose who shared each item. No one selected = shared by everyone.</p>
+          <div id="itm" class="stack"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <span>Tip</span>
+        <div class="row">
+          <div class="seg" id="tip" role="group" aria-label="Tip percent">
+            <button type="button" data-v="0">0%</button><button type="button" data-v="10">10%</button><button type="button" data-v="15">15%</button><button type="button" data-v="18">18%</button><button type="button" data-v="20">20%</button>
+          </div>
+          <span class="adorn tipc"><input class="input" id="tip-custom" inputmode="decimal" autocomplete="off" placeholder="Other" aria-label="Custom tip percent"><i>%</i></span>
+        </div>
+        <label class="check"><input type="checkbox" id="tip-on-tax"> Tip on the amount after tax</label>
+      </div>
+      <div class="grid-2 tight">
+        <label class="field">Tax / service
+          <span class="adorn"><input class="input" id="tax" inputmode="decimal" autocomplete="off" placeholder="0"><i>%</i></span>
+        </label>
+        <label class="field">Round each share up to
+          <select class="select" id="round">
+            <option value="0">No rounding</option>
+            <option value="5">0.05</option>
+            <option value="10">0.10</option>
+            <option value="25">0.25</option>
+            <option value="50">0.50</option>
+            <option value="100">1</option>
+            <option value="500">5</option>
+          </select>
+        </label>
+      </div>
+      <label class="field">Currency <span class="faint">(optional, shown in the summary)</span>
+        <input class="input" id="cur" autocomplete="off" maxlength="6" placeholder="e.g. JOD, $, €" dir="auto">
+      </label>
+    </section>
+
+    <section class="card stack">
+      <h2>Who pays what</h2>
+      <div class="hero-res" id="hero"></div>
+      <dl class="receipt" id="stats"></dl>
+      <div class="tbl-wrap" id="per-wrap"><table class="tbl" id="per"></table></div>
+      <p class="warn-note" id="warn" hidden></p>
+      <div class="row between">
+        <h3 class="sub">Summary</h3>
+        <button class="btn primary small" id="copy"><svg class="i"><use href="#i-copy"/></svg>Copy for WhatsApp</button>
+      </div>
+      <pre class="out" id="summary" tabindex="0"></pre>
+    </section>
+  </div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
